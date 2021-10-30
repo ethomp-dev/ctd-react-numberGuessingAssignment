@@ -1,32 +1,26 @@
-import React, { Component } from "react";
-import GuessControl from "./GuessControl";
-import GuessMessage from "./GuessMessage";
-import GameOver from "./GameOver";
+import React from 'react'
+import GuessControl from './GuessControl'
+import GuessMessage from './GuessMessage'
+import GameOver from './GameOver'
 
-
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 5
 
 /**
  *
  * Returns a random integer number from 1-100 inclusive
  */
 function getRandomNumber() {
-  return Math.floor(Math.random() * 100) + 1;
+  return Math.floor(Math.random() * 100) + 1
 }
 
 const NumberGuessingGame = () => {
-  const [numberToGuess, setNumberToGuess] = React.useState(getRandomNumber());
-  const [numberOfGuesses, setNumberOfGuesses] = React.useState(0);
-  const [latestGuess, setLatestGuess] = React.useState(null);
-
-  const isCorrectGuess = latestGuess === numberToGuess;
-
-  const isGameOver =
-    isCorrectGuess || numberOfGuesses === MAX_ATTEMPTS;
+  const [numberToGuess, setNumberToGuess] = React.useState(getRandomNumber())
+  const [numberOfGuesses, setNumberOfGuesses] = React.useState(0)
+  const [latestGuess, setLatestGuess] = React.useState(null)
 
   const handleGuess = (guess) => {
-    setLatestGuess(guess)
-    setNumberOfGuesses(numberOfGuesses++)
+    setLatestGuess(Number(guess))
+    setNumberOfGuesses(numberOfGuesses + 1)
   }
 
   const handleReset = () => {
@@ -35,6 +29,12 @@ const NumberGuessingGame = () => {
     setLatestGuess(null)
   }
 
+  console.log(numberToGuess, latestGuess)
+
+  const isCorrectGuess = latestGuess === numberToGuess
+
+  const isGameOver = isCorrectGuess || numberOfGuesses === MAX_ATTEMPTS
+
   return (
     <div>
       <h2>I'm thinking of a number from 1 to 100.</h2>
@@ -42,9 +42,7 @@ const NumberGuessingGame = () => {
         Can you guess the number I am thinking of in {MAX_ATTEMPTS} tries?
       </h2>
       <GuessControl onGuess={handleGuess} />
-      {isGameOver && (
-        <GameOver hasWon={isCorrectGuess} onReset={handleReset} />
-      )}
+      {isGameOver && <GameOver hasWon={isCorrectGuess} onReset={handleReset} />}
       {!isGameOver && (
         <GuessMessage
           guess={latestGuess}
@@ -53,7 +51,7 @@ const NumberGuessingGame = () => {
         />
       )}
     </div>
-  );
+  )
 }
 
-export default NumberGuessingGame;
+export default NumberGuessingGame
